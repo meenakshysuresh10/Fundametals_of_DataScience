@@ -1,0 +1,83 @@
+# Pandas Operations on Student Marks Data
+# Submitted by: [Your Name]
+# Date: [Submission Date]
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# i) Read the data from the table
+print("\n--- i) Reading data from marks.csv ---")
+data = {
+    'S.No.': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    'NAME': ['Ajay', 'Kumar', 'Sara', 'Zaira', 'Sachin', 'Rahul', 'Pooja', 'Smith', 'Laxmi', 'Michael'],
+    'M1': [32, 58, 66, 34, 85, 90, 70, 85, 59, 81],
+    'M2': [76, 81, 73, 62, 80, 86, 68, 90, 65, 69],
+    'M3': [68, 72, 84, 64, 78, 83, 75, 92, 71, 74]
+}
+df = pd.DataFrame(data)
+print("Data successfully loaded:")
+print(df)
+
+# ii) Retrieve only first and last 5 rows
+print("\n--- ii) First and last 5 rows ---")
+first_last = pd.concat([df.head(), df.tail()])
+print(first_last)
+
+# iii) Purpose of describe() function
+print("\n--- iii) Purpose of describe() function ---")
+print("The describe() function provides statistical summary of numerical columns including:")
+print("- Count: Number of non-null values")
+print("- Mean: Average value")
+print("- Std: Standard deviation")
+print("- Min/Max: Minimum and maximum values")
+print("- Percentiles: 25%, 50% (median), and 75% values")
+print("\nExample output:")
+print(df.describe())
+
+# iv) Select only 3rd to 6th row
+print("\n--- iv) Rows 3 to 6 ---")
+rows_3_to_6 = df.iloc[2:6]  # 0-based indexing
+print(rows_3_to_6)
+
+# v) Select only M3 > 84 marks
+print("\n--- v) Students with M3 > 84 ---")
+m3_high = df[df['M3'] > 84]
+print(m3_high)
+
+# vi) Filter rows with missing values
+print("\n--- vi) Rows with missing values ---")
+# Adding a null value for demonstration
+df_with_null = df.copy()
+df_with_null.loc[2, 'M2'] = None
+rows_with_missing = df_with_null[df_with_null.isnull().any(axis=1)]
+print("(One null value added for demonstration)")
+print(rows_with_missing)
+
+# vii) Remove rows with missing values
+print("\n--- vii) Data after removing missing values ---")
+df_clean = df_with_null.dropna()
+print(df_clean)
+
+# viii) Sort M1 in descending order
+print("\n--- viii) Data sorted by M1 (descending) ---")
+df_sorted = df.sort_values('M1', ascending=False)
+print(df_sorted)
+
+# ix) Plot the table
+print("\n--- ix) Table Visualization ---")
+plt.figure(figsize=(10, 4))
+plt.axis('off')
+plt.title("Student Marks Data", pad=20)
+table = plt.table(cellText=df.values, 
+                 colLabels=df.columns, 
+                 loc='center', 
+                 cellLoc='center')
+table.auto_set_font_size(False)
+table.set_fontsize(10)
+table.scale(1.2, 1.2)
+plt.show()
+
+# x) Output for df.loc[3:6, ['M2', 'M3']]
+print("\n--- x) Output for df.loc[3:6, ['M2', 'M3']] ---")
+output = df.loc[3:6, ['M2', 'M3']]
+print(output)
